@@ -1,19 +1,23 @@
 """Compute k-anonymity for a CSV dataset.
 
 Usage:
-    # Show only k value
+    # Show only k value for all columns
+    python compute_k_anonymity.py --csv data.csv
+    
+    # Show only k value for specific columns
     python compute_k_anonymity.py --csv data.csv --columns age,sex,zip_code
     
     # Show top 5 smallest groups
     python compute_k_anonymity.py --csv data.csv --columns age,sex,zip_code --top-k 5
     
     # Show all combinations
-    python compute_k_anonymity.py --csv data.csv --columns age,sex,zip_code --show-all
+    python compute_k_anonymity.py --csv data.csv --show-all
     
     # Save results to CSV
-    python compute_k_anonymity.py --csv data.csv --columns age,sex,zip_code --show-all --output-csv results.csv
+    python compute_k_anonymity.py --csv data.csv --show-all --output-csv results.csv
 
 If any provided column does not exist, the script prints "{column} not found".
+If --columns is not provided, all columns in the CSV are used.
 """
 
 from __future__ import annotations
@@ -55,13 +59,59 @@ def load_csv(path: Path) -> list[dict]:
             return [row for row in reader]
 
 
+def _get_csv_columns(path: Path) -> list[str]:
+    """Read and return all column names from CSV header."""
+    for encoding in ("utf-8", "cp936"):
+        try:
+            with path.open(newline="", encoding=encoding, errors="strict") as f:
+                reader = csv.DictReader(f)
+                return reader.fieldnames or []
+        except UnicodeDecodeError:
+            continue
+    return []
+
+
+def compute_k_anonymity_stream(path: Path, columns: list[str]) -> tuple[int, dict[tuple, int]]:
+    """Stream through a CSV file and compute group counts without loading all rows.
+
+    Returns (k, groups) where groups maps tuples (column values) -> count.
+    If any requested column is missing, prints the missing names and returns (0, {}).
+    """
+    # Try UTF-8 then fall back to cp936 as in load_csv
+    for encoding in ("utf-8", "cp936"):
+        try:
+            with path.open(newline="", encoding=encoding, errors="strict") as f:
+                reader = csv.DictReader(f)
+                header = reader.fieldnames or []
+                missing = [col for col in columns if col not in header]
+                if missing:
+                    for col in missing:
+                        print(f"{col} not found")
+                    return 0, {}
+
+                groups: dict[tuple, int] = {}
+                for row in reader:
+                    key = tuple(row.get(col, "") for col in columns)
+                    groups[key] = groups.get(key, 0) + 1
+
+                k = min(groups.values()) if groups else 0
+                return k, groups
+        except UnicodeDecodeError:
+            # try next encoding
+            continue
+    # If we get here, both encodings failed -- report error
+    print(f"Error: unable to decode file {path}")
+    return 0, {}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compute k-anonymity for a CSV dataset.")
     parser.add_argument("--csv", dest="csv_path", required=True, help="Path to the CSV file")
     parser.add_argument(
         "--columns",
-        required=True,
-        help="Comma-separated list of column names to use as quasi-identifiers",
+        required=False,
+        default=None,
+        help="Comma-separated list of column names. If not provided, all columns are used.",
     )
     parser.add_argument(
         "--show-all",
@@ -87,13 +137,21 @@ def main() -> None:
         print(f"Error: file does not exist: {csv_path}", file=sys.stderr)
         sys.exit(1)
 
-    columns = [col.strip() for col in args.columns.split(",") if col.strip()]
-    if not columns:
-        print("Error: at least one column name is required", file=sys.stderr)
-        sys.exit(1)
+    # Determine columns: either from user input or auto-detect from CSV header
+    if args.columns:
+        columns = [col.strip() for col in args.columns.split(",") if col.strip()]
+        if not columns:
+            print("Error: at least one column name is required", file=sys.stderr)
+            sys.exit(1)
+    else:
+        # Auto-detect all columns from CSV header
+        columns = _get_csv_columns(csv_path)
+        if not columns:
+            print(f"Error: unable to detect columns from {csv_path}", file=sys.stderr)
+            sys.exit(1)
 
-    rows = load_csv(csv_path)
-    k, groups = compute_k_anonymity(rows, columns)
+    # Use stream-processing to avoid loading entire file into memory
+    k, groups = compute_k_anonymity_stream(csv_path, columns)
     
     if not groups:
         return
