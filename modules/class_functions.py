@@ -2,6 +2,9 @@ import numpy as np
 import random
 import pandas as pd
 
+DEFAULT_POSTAL_ADDRESS = '../data/postal_data.csv'
+
+
 def bracket(low: int, high: int, interval: int) -> int:
     # Bracket defined by the lower bound for coding simplicity.
     # Example: If I'm looking at the brackets 0-4 and 5-9, then
@@ -9,10 +12,12 @@ def bracket(low: int, high: int, interval: int) -> int:
 
     return np.random.uniform(low, high) // interval
 
-# generates n random postal codes from csv file, if postal_list is not included in argument, 
-# the postal codes will be generated from the full list of Canadian codes, otherwise they will be 
-# generated from the postal_list
-def postal_data(data_csv, n, postal_list= []):
+
+def sample_postcode(data_csv, n: int, postal_list= []):
+    # generates n random postal codes from csv file, if postal_list is not included in argument, 
+    # the postal codes will be generated from the full list of Canadian codes, otherwise they will be 
+    # generated from the postal_list
+
     df = pd.read_csv(data_csv)
     if len(postal_list) != 0: 
         selected_df=df[df['GEO'].isin(postal_list)]
@@ -24,10 +29,24 @@ def postal_data(data_csv, n, postal_list= []):
     tot_pop = sum(pop_list)
     weight_list = [x / tot_pop for x in pop_list]
     results = random.choices(postal_list, weights=weight_list, k=n)
+
     return(results)
 
-# Generates n random ICD-10 Q codes/NA entries
-def condition(n):
+
+def sample_province():
+    return
+
+
+def sample_country():
+    return
+
+
+def sample_icd10():
+    return
+
+
+def sample_random_condition(n):
+    # Generates n random ICD-10 Q codes/NA entries
     cond_list = ["Q00", "Q01","Q02","Q03","Q04","Q05","Q06","Q07",
             "Q10","Q11","Q12","Q13","Q14","Q15","Q16","Q17","Q18",
             "Q20","Q21","Q22","Q23","Q24","Q25","Q26","Q27","Q28",
@@ -45,3 +64,10 @@ def condition(n):
     cond_list.append("N/A")
     results = random.choices(cond_list, weights=weight_list, k=n)
     return(results)
+
+
+def distribute_sex(n: int, probability_female: float = 0.5) -> list[str]:
+    return ['female' if np.random.uniform() < probability_female else 'male' 
+            for _ in range(n)]
+
+# def generate_random_postcodes(n: int, )

@@ -15,27 +15,38 @@ class Field:
 
 fields = [
     Field(
-        name = "address",
-        options = ["country", "province", "postcode"],
-        functions = [cf.sample_country, cf.sample_province, cf.sample_postcode],
-        choice = "postcode"
+        "address",
+        ["country", "province", "postcode"],
+        [cf.sample_country, cf.sample_province, cf.sample_postcode],
+        "postcode"
     ),
 
     Field(
-        name = "age",
-        options = ["bracket", "year", "month"],
-        functions = [
+        "age",
+        ["bracket", "year", "month"],
+        [
             partial(cf.bracket, low = 0, high = 25, interval = 5),
             partial(rand.uniform, 0, 25),
             partial(rand.uniform, 0, 24 * 12)
         ],
-        choice = "year"
+        "year"
     ),
 
     Field(
-        name = "conditions",
-        options = ["binary", "ICD-10"],
-        functions = [partial(rand.uniform, probability = 0.5), cf.sample_icd10],
-        choice = "binary"
+        "sex",
+        ["binary"],
+        [partial(cf.distribute_sex, probability_female=0.5)],
+        "binary"
+    ),
+
+    Field(
+        "conditions",
+        ["binary", "ICD-10", "random_condition"],
+        [
+            partial(rand.uniform, probability = 0.5), 
+            cf.sample_icd10, 
+            cf.sample_random_condition
+        ],
+        "random_condition"
     )
 ]
