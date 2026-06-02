@@ -19,4 +19,4 @@ python k_anonymity.py --csv data.csv --columns age,gender,zipcode,etc.
 - Currently only supports CSV files
 - Missing values are not handled properly; they are currently treated as a distinct category
 - The script runs on the entire CSV dataset and cannot select a subset of rows for computation
-- Only outputs the minimum k-value for each identifier combination, not the full frequency distribution across multiple combinations
+- Only outputs the minimum k-value for each identifier combination, not the full frequency distribution across multiple combinations(changed in version 2)
