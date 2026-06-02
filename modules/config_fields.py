@@ -26,8 +26,8 @@ fields = [
         ["bracket", "year", "month"],
         [
             partial(cf.bracket, low = 0, high = 25, interval = 5),
-            partial(rand.uniform, 0, 25),
-            partial(rand.uniform, 0, 24 * 12)
+            partial(cf.uniform, low = 0, high = 25),
+            partial(cf.uniform, low = 0, high = 24 * 12)
         ],
         "year"
     ),
