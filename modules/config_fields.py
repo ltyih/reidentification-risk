@@ -5,7 +5,7 @@ import class_functions as cf
 
 @dataclass
 class Field:
-    name = str
+    name: str
     options: list[str]
     functions: list
     choice: str | None = None
