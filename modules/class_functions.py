@@ -33,8 +33,11 @@ def sample_postcode(data_csv, n: int, postal_list= []):
     return(results)
 
 
-def sample_province():
-    return
+def sample_province(n):
+    provinces = ["ON","QB","BC", "AB" , "MB", "SK", "NS", "NB", "NL", "PEI", "NWT", "YK", "NV"]
+    weights = [0.3845, 0.2298, 0.1352, 0.1152, 0.0363, 0.0306,0.0262, 0.0209, 0.0138, 0.0042, 0.0011, 0.0011, 0.0010]
+    results = random.choices(provinces, weights=weights, k=n)
+    return(results)
 
 
 def sample_country():
