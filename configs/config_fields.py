@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 import numpy.random as rand
-import class_functions as cf
+import modules.class_functions as cf
 
 @dataclass
 class Field:

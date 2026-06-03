@@ -1,8 +1,11 @@
 import argparse
+import importlib
+import sys
 import pandas as pd
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(ROOT))
 
 def _determine_functions(fields: list):
     names: list[str] = []
@@ -23,11 +26,13 @@ def _determine_functions(fields: list):
 
 
 def make_data(
-        n_med: int, 
-        n_id: int, 
-        n_overlap: int
+        n_med: int,
+        n_id: int,
+        n_overlap: int,
+        config: str = 'config_fields'
 ):
-    from config_fields import fields
+    module = importlib.import_module(f'configs.{config}')
+    fields = module.fields
 
     functions = _determine_functions(fields)
     med_data = pd.DataFrame()
@@ -54,15 +59,19 @@ def main():
                         help = 'Number of ID records')
     parser.add_argument('--n_overlap', type = int, required = True, 
                         help = 'Number of overlapping records')
-    parser.add_argument('--destination', type = str, 
-                        default = ROOT / 'data' / 'temp.csv', 
+    parser.add_argument('--destination', type = str,
+                        default = ROOT / 'data' / 'temp.csv',
                         help = 'Output CSV file path (default: ../data/temp.csv)')
+    parser.add_argument('--config', type = str,
+                        default = 'config_fields',
+                        help = 'Config module name from configs/ (default: config_fields)')
 
     args = parser.parse_args()
     data = make_data(
-        n_med=args.n_med, 
-        n_id=args.n_id, 
-        n_overlap=args.n_overlap
+        n_med=args.n_med,
+        n_id=args.n_id,
+        n_overlap=args.n_overlap,
+        config=args.config
     )
 
     data.to_csv(args.destination, index = True)
