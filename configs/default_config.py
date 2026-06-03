@@ -1,17 +1,14 @@
 from dataclasses import dataclass
 from functools import partial
 import numpy.random as rand
-import class_functions as cf
+import modules.class_functions as cf
 
 @dataclass
 class Field:
-    name: str
-    options: list[str]
-    functions: list
-    choice: str | None = None
-    distribution: str | None = None
-    mean: float | None = None
-    std: float | None = None
+    name: str           # Name of the column/information type
+    options: list[str]  # Options for level of detail of information
+    functions: list     # Functions associated with each options, in same order (should I make it a dictionary?)
+    choice: str         # Choice of detail level from `options`
 
 fields = [
     Field(
@@ -26,8 +23,8 @@ fields = [
         ["bracket", "year", "month"],
         [
             partial(cf.bracket, low = 0, high = 25, interval = 5),
-            partial(rand.uniform, 0, 25),
-            partial(rand.uniform, 0, 24 * 12)
+            partial(cf.uniform, low = 0, high = 25),
+            partial(cf.uniform, low = 0, high = 24 * 12)
         ],
         "year"
     ),

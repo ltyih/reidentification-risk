@@ -1,19 +1,29 @@
 import numpy as np
 import random
 import pandas as pd
+from pathlib import Path
 
-DEFAULT_POSTAL_ADDRESS = '../data/postal_data.csv'
+ROOT = Path(__file__).parent.parent
+DEFAULT_POSTAL_ADDRESS = ROOT / 'data' / 'postal_data.csv'
 
 
-def bracket(low: int, high: int, interval: int) -> int:
+def uniform(n: int, low: int, high: int) -> list[int]:
+    return np.floor(np.random.uniform(low, high, n)).astype(int)
+
+
+def bracket(low: int, high: int, interval: int, n: int) -> int:
     # Bracket defined by the lower bound for coding simplicity.
     # Example: If I'm looking at the brackets 0-4 and 5-9, then
     # these brackets are represented by 0 and 5, respectively.
 
-    return np.random.uniform(low, high) // interval
+    return [np.random.uniform(low, high) // interval for _ in range(n)]
 
 
-def sample_postcode(data_csv, n: int, postal_list= []):
+def sample_postcode(
+        n: int, 
+        postal_list: list[str] = [],
+        data_csv: str = DEFAULT_POSTAL_ADDRESS
+) -> list[str]:
     # generates n random postal codes from csv file, if postal_list is not included in argument, 
     # the postal codes will be generated from the full list of Canadian codes, otherwise they will be 
     # generated from the postal_list
@@ -48,7 +58,7 @@ def sample_icd10():
     return
 
 
-def sample_random_condition(n):
+def sample_random_condition(n:int) -> list[str]:
     # Generates n random ICD-10 Q codes/NA entries
     cond_list = ["Q00", "Q01","Q02","Q03","Q04","Q05","Q06","Q07",
             "Q10","Q11","Q12","Q13","Q14","Q15","Q16","Q17","Q18",
