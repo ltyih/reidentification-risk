@@ -1,8 +1,10 @@
 import numpy as np
 import random
 import pandas as pd
+from pathlib import Path
 
-DEFAULT_POSTAL_ADDRESS = '../data/postal_data.csv'
+ROOT = Path(__file__).parent.parent
+DEFAULT_POSTAL_ADDRESS = ROOT / 'data' / 'postal_data.csv'
 
 
 def uniform(n: int, low: int, high: int) -> list[int]:

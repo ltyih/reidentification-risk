@@ -8,10 +8,7 @@ class Field:
     name: str
     options: list[str]
     functions: list
-    choice: str | None = None
-    distribution: str | None = None
-    mean: float | None = None
-    std: float | None = None
+    choice: str
 
 fields = [
     Field(
