@@ -75,8 +75,8 @@ def main():
                         default = ROOT / 'data' / 'temp.csv',
                         help = 'Output CSV file path (default: ../data/temp.csv)')
     parser.add_argument('--config', type = str,
-                        default = 'config_fields',
-                        help = 'Config module name from configs/ (default: config_fields)')
+                        default = 'default_config',
+                        help = 'Config module name from configs/ (default: default_config)')
 
     args = parser.parse_args()
     data = make_data(
