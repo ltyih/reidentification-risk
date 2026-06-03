@@ -7,6 +7,18 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
+'''
+Script to generate synthetic data sets from a config file.
+This is called with the following variables:
+    --n_med : Number of medical entries
+    --n_id : Number of identity entries
+    --n_overlap : Number of overlapping entries
+    --destination : Where you would like to save data (optional)
+        - Defaults to 'data/temp.csv'
+    --config : File that describes the parameter setup (optional)
+        - Defaults to 'config/config_fields.py'
+'''
+
 def _determine_functions(fields: list):
     names: list[str] = []
     function: list = []

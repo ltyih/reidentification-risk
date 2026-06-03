@@ -5,10 +5,10 @@ import modules.class_functions as cf
 
 @dataclass
 class Field:
-    name: str
-    options: list[str]
-    functions: list
-    choice: str
+    name: str           # Name of the column/information type
+    options: list[str]  # Options for level of detail of information
+    functions: list     # Functions associated with each options, in same order (should I make it a dictionary?)
+    choice: str         # Choice of detail level from `options`
 
 fields = [
     Field(
