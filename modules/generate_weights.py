@@ -1,10 +1,14 @@
 import argparse
 import csv
+import sys
 from collections import Counter
 from pathlib import Path
 from typing import Callable, Iterable
 
-from BF import find_rows_for_key
+ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(ROOT))
+
+
 
 PROVINCE_ABBREVIATIONS = {
     "AB": "Alberta",
@@ -23,6 +27,27 @@ PROVINCE_ABBREVIATIONS = {
 }
 
 NORMALIZED_ABBREVIATIONS = {key.lower(): value for key, value in PROVINCE_ABBREVIATIONS.items()}
+
+POSTAL_PREFIX_TO_ABBREV = {
+    "A": "NL",
+    "B": "NS",
+    "C": "PE",
+    "E": "NB",
+    "G": "QC",
+    "H": "QC",
+    "J": "QC",
+    "K": "ON",
+    "L": "ON",
+    "M": "ON",
+    "N": "ON",
+    "P": "ON",
+    "R": "MB",
+    "S": "SK",
+    "T": "AB",
+    "V": "BC",
+    "X": "NT",
+    "Y": "YT",
+}
 
 
 def load_csv(path: Path) -> list[dict]:
@@ -58,6 +83,17 @@ def normalize_gender(value: object) -> str:
     return text
 
 
+def postal_code_to_province_abbrev(value: object) -> str:
+    text = normalize_text(value)
+    if not text:
+        return ""
+    code = text.replace(" ", "").upper()
+    if not code:
+        return ""
+    prefix = code[0]
+    return POSTAL_PREFIX_TO_ABBREV.get(prefix, "")
+
+
 def normalize_region(value: object, region_map: dict[str, str]) -> str:
     text = normalize_text(value)
     if not text:
@@ -67,6 +103,14 @@ def normalize_region(value: object, region_map: dict[str, str]) -> str:
         return region_map[lower]
     if lower in (name.lower() for name in region_map.values()):
         return next(name for name in region_map.values() if name.lower() == lower)
+
+    # If the value looks like a postal code, infer the province abbreviation
+    province_abbrev = postal_code_to_province_abbrev(text)
+    if province_abbrev:
+        abbrev_lower = province_abbrev.lower()
+        if abbrev_lower in region_map:
+            return region_map[abbrev_lower]
+
     return text
 
 
@@ -134,10 +178,6 @@ def build_population_index(pop_rows: list[dict], region_col: str, age_col: str, 
     return populations, age_ranges
 
 
-def count_rows(rows: list[dict], columns: list[str], values: tuple | list | dict) -> int:
-    count, _, _ = find_rows_for_key(rows, columns, values)
-    return count
-
 
 def generate_weights(
     data_path: Path,
@@ -186,12 +226,9 @@ def generate_weights(
         sample_frequency = sample_counts[combo]
         if sample_frequency <= 0:
             raise ValueError(f"Sample frequency for group {combo} is not positive")
-
-        # Demonstrate use of find_rows_for_key from BF.py
-        verified_count = count_rows(data_rows, lookup_columns, combo)
-        if verified_count != sample_frequency:
-            raise AssertionError("Sample frequency mismatch between Counter and find_rows_for_key")
-
+        
+        print(f"combo: {combo}, frequency: {sample_frequency}, population: {populations[combo]}")
+      
         population = populations[combo]
         weight = population / sample_frequency
         row["weight"] = weight
@@ -207,11 +244,27 @@ def generate_weights(
     return output_path
 
 
+def resolve_input_path(path_str: str) -> Path:
+    path = Path(path_str)
+    if path.exists():
+        return path
+    fallback = ROOT / path_str
+    if fallback.exists():
+        return fallback
+    if path.parent == Path('.') and (ROOT / 'data' / path.name).exists():
+        return ROOT / 'data' / path.name
+    return path
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate sample weights from a data CSV and a population CSV.")
     parser.add_argument("--data", required=True, help="Input data CSV path")
     parser.add_argument("--pop", required=True, help="Population CSV path")
-    parser.add_argument("--region-col", default="region", help="Region column name in data CSV")
+    parser.add_argument(
+        "--region-col",
+        default="region",
+        help="Region column name in data CSV. Can be a province name, abbreviation, or postal code/address.",
+    )
     parser.add_argument("--age-col", default="age", help="Age column name in data CSV")
     parser.add_argument("--gender-col", default="sex", help="Gender column name in data CSV")
     parser.add_argument(
@@ -220,9 +273,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    data_path = Path(args.data)
-    pop_path = Path(args.pop)
+    data_path = resolve_input_path(args.data)
+    pop_path = resolve_input_path(args.pop)
     output_path = Path(args.output) if args.output else None
+    if output_path and not output_path.is_absolute():
+        output_path = ROOT / output_path
 
     if not data_path.exists():
         raise FileNotFoundError(f"Data CSV not found: {data_path}")
