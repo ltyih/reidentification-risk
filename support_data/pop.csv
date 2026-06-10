@@ -1,0 +1,131 @@
+geography,gender,age,population
+Newfoundland and Labrador,male,0 to 4,9433
+Newfoundland and Labrador,male,5 to 9,12006
+Newfoundland and Labrador,male,10 to 14,13281
+Newfoundland and Labrador,male,15 to 19,14661
+Newfoundland and Labrador,male,20 to 24,15924
+Newfoundland and Labrador,female,0 to 4,8930
+Newfoundland and Labrador,female,5 to 9,11450
+Newfoundland and Labrador,female,10 to 14,12649
+Newfoundland and Labrador,female,15 to 19,13655
+Newfoundland and Labrador,female,20 to 24,14502
+Prince Edward Island,male,0 to 4,3688
+Prince Edward Island,male,5 to 9,4394
+Prince Edward Island,male,10 to 14,4871
+Prince Edward Island,male,15 to 19,5097
+Prince Edward Island,male,20 to 24,7331
+Prince Edward Island,female,0 to 4,3530
+Prince Edward Island,female,5 to 9,4141
+Prince Edward Island,female,10 to 14,4710
+Prince Edward Island,female,15 to 19,5068
+Prince Edward Island,female,20 to 24,7008
+Nova Scotia,male,0 to 4,21179
+Nova Scotia,male,5 to 9,25852
+Nova Scotia,male,10 to 14,27796
+Nova Scotia,male,15 to 19,28420
+Nova Scotia,male,20 to 24,35477
+Nova Scotia,female,0 to 4,20132
+Nova Scotia,female,5 to 9,24539
+Nova Scotia,female,10 to 14,26707
+Nova Scotia,female,15 to 19,26222
+Nova Scotia,female,20 to 24,32169
+New Brunswick,male,0 to 4,17612
+New Brunswick,male,5 to 9,21488
+New Brunswick,male,10 to 14,23374
+New Brunswick,male,15 to 19,23536
+New Brunswick,male,20 to 24,25920
+New Brunswick,female,0 to 4,16618
+New Brunswick,female,5 to 9,20533
+New Brunswick,female,10 to 14,22553
+New Brunswick,female,15 to 19,22437
+New Brunswick,female,20 to 24,24047
+Quebec,male,0 to 4,211146
+Quebec,male,5 to 9,240493
+Quebec,male,10 to 14,254353
+Quebec,male,15 to 19,251519
+Quebec,male,20 to 24,264258
+Quebec,female,0 to 4,200779
+Quebec,female,5 to 9,226916
+Quebec,female,10 to 14,242630
+Quebec,female,15 to 19,240686
+Quebec,female,20 to 24,245714
+Ontario,male,0 to 4,369322
+Ontario,male,5 to 9,412230
+Ontario,male,10 to 14,434467
+Ontario,male,15 to 19,465255
+Ontario,male,20 to 24,602414
+Ontario,female,0 to 4,351264
+Ontario,female,5 to 9,393453
+Ontario,female,10 to 14,410931
+Ontario,female,15 to 19,433722
+Ontario,female,20 to 24,532808
+Manitoba,male,0 to 4,41136
+Manitoba,male,5 to 9,47062
+Manitoba,male,10 to 14,48720
+Manitoba,male,15 to 19,48188
+Manitoba,male,20 to 24,57653
+Manitoba,female,0 to 4,39162
+Manitoba,female,5 to 9,45073
+Manitoba,female,10 to 14,45304
+Manitoba,female,15 to 19,45255
+Manitoba,female,20 to 24,50809
+Saskatchewan,male,0 to 4,35161
+Saskatchewan,male,5 to 9,41177
+Saskatchewan,male,10 to 14,43576
+Saskatchewan,male,15 to 19,42037
+Saskatchewan,male,20 to 24,44268
+Saskatchewan,female,0 to 4,33514
+Saskatchewan,female,5 to 9,39510
+Saskatchewan,female,10 to 14,40740
+Saskatchewan,female,15 to 19,39449
+Saskatchewan,female,20 to 24,39505
+Alberta,male,0 to 4,134740
+Alberta,male,5 to 9,155517
+Alberta,male,10 to 14,160189
+Alberta,male,15 to 19,158528
+Alberta,male,20 to 24,169210
+Alberta,female,0 to 4,128183
+Alberta,female,5 to 9,147630
+Alberta,female,10 to 14,151190
+Alberta,female,15 to 19,148882
+Alberta,female,20 to 24,155617
+British Columbia,male,0 to 4,111216
+British Columbia,male,5 to 9,130432
+British Columbia,male,10 to 14,141011
+British Columbia,male,15 to 19,153963
+British Columbia,male,20 to 24,191863
+British Columbia,female,0 to 4,105694
+British Columbia,female,5 to 9,124456
+British Columbia,female,10 to 14,133065
+British Columbia,female,15 to 19,143907
+British Columbia,female,20 to 24,177555
+Yukon,male,0 to 4,1190
+Yukon,male,5 to 9,1298
+Yukon,male,10 to 14,1314
+Yukon,male,15 to 19,1312
+Yukon,male,20 to 24,1643
+Yukon,female,0 to 4,1075
+Yukon,female,5 to 9,1287
+Yukon,female,10 to 14,1215
+Yukon,female,15 to 19,1117
+Yukon,female,20 to 24,1535
+Northwest Territories,male,0 to 4,1291
+Northwest Territories,male,5 to 9,1483
+Northwest Territories,male,10 to 14,1423
+Northwest Territories,male,15 to 19,1449
+Northwest Territories,male,20 to 24,1651
+Northwest Territories,female,0 to 4,1174
+Northwest Territories,female,5 to 9,1436
+Northwest Territories,female,10 to 14,1427
+Northwest Territories,female,15 to 19,1419
+Northwest Territories,female,20 to 24,1594
+Nunavut,male,0 to 4,2065
+Nunavut,male,5 to 9,2316
+Nunavut,male,10 to 14,2026
+Nunavut,male,15 to 19,1771
+Nunavut,male,20 to 24,1654
+Nunavut,female,0 to 4,1950
+Nunavut,female,5 to 9,2178
+Nunavut,female,10 to 14,2106
+Nunavut,female,15 to 19,1838
+Nunavut,female,20 to 24,1651
