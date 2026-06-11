@@ -58,7 +58,7 @@ def sample_icd10():
     return
 
 
-def sample_random_condition(n:int) -> list[str]:
+def sample_random_condition(n:int, prob_cond: float) -> list[str]:
     # Generates n random ICD-10 Q codes/NA entries
     cond_list = ["Q00", "Q01","Q02","Q03","Q04","Q05","Q06","Q07",
             "Q10","Q11","Q12","Q13","Q14","Q15","Q16","Q17","Q18",
@@ -72,15 +72,26 @@ def sample_random_condition(n:int) -> list[str]:
             "Q90","Q91","Q92","Q93","Q94","Q95","Q96","Q97","Q98","Q99",
             "QA0"]
     num = len(cond_list)
-    weight_list = [0.001]*num
-    weight_list.append(1-0.001*90)
+    weight_list = [prob_cond / num for _ in range(num)]
+    weight_list.append(1 - prob_cond)
     cond_list.append("N/A")
     results = random.choices(cond_list, weights=weight_list, k=n)
     return(results)
 
 
 def distribute_sex(n: int, probability_female: float = 0.5) -> list[str]:
-    return ['female' if np.random.uniform() < probability_female else 'male' 
+    return ['female' if np.random.uniform() < probability_female else 'male'
             for _ in range(n)]
+
+def TrueFalse(n: int, probability: float = 0.5) -> list[str]:
+    return [True if np.random.uniform() < probability else False
+            for _ in range(n)]
+
+
+
+def sample_sex(n: int, weights: list[float]) -> list[str]:
+    # Samples n values uniformly (equal probability) from the four options.
+    options = ['male', 'female', 'prefer not to say', 'non-binary']
+    return random.choices(options, k=n, weights=weights)
 
 # def generate_random_postcodes(n: int, )
