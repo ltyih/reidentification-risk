@@ -13,6 +13,8 @@ from scipy.stats import norm
 #Re-Identification Risk Metric B (Jiang 2022): B=1/n * sum(1/F_i) where F_i is the frequency of the i-th record in the population data and n is the total number of records in the input data (i.e. number of rows/ppl)
 def re_identification_risk(population_data, input_data):
 
+    population_data = population_data[input_data.columns]
+
     num_records=len(input_data)
     risks = []
 
