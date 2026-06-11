@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 
-
-# In[6]:
-
-
 def cross_entropy(data_p, data_q): 
+     # Make sure column names are same between p and q
+     # Measure both ways
      for col_name in data_p.columns:
          if col_name in data_q.columns:
              data_p = data_p
@@ -36,9 +31,6 @@ def cross_entropy(data_p, data_q):
          else:
              entropy = entropy - prob1[i]*np.log2(prob2[i])
      return(entropy)
-
-
-# In[7]:
 
 
 def data_counts(data_array1, data_array2):
