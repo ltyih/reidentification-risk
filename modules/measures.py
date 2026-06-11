@@ -107,6 +107,29 @@ def DR_all_columns(dataframe):
 
 
 
+def re_identification_risk(population_data, input_data):
+
+    population_data = population_data[input_data.columns]
+
+    num_records=len(input_data)
+    risks = []
+
+    # Count frequency of each medical data record in synthetic population
+    for _, row in input_data.iterrows():
+
+        mask = (population_data == row).all(axis=1)
+        freq = mask.sum()
+
+        # Avoid division by zero
+        if freq > 0:
+            risks.append(1 / freq)
+
+    if len(risks) == 0:
+        return 0.0
+    
+    re_id_risk=np.sum(risks)/num_records #using this instead of np.mean bc a unique record in input might not exist in population (ie when freq=0)
+
+    return re_id_risk
 
 
 
