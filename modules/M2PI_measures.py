@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 import numpy as np
 import pandas as pd
 
-
-# In[2]:
 
 
 def entropy(dataframe, columns = []):
@@ -24,9 +20,6 @@ def entropy(dataframe, columns = []):
   probabilities = counts / len(arr)
   dataset_entropy = -np.sum(probabilities * np.log2(probabilities))
   return(dataset_entropy)
-
-
-# In[3]:
 
 
 def cross_entropy(data_p, data_q):
@@ -71,9 +64,6 @@ def cross_entropy(data_p, data_q):
      return(entropy1, entropy2)
 
 
-# In[4]:
-
-
 def data_counts(data_array1, data_array2):
     entries1, counts1 = np.unique(data_array1, axis = 0, return_counts = True)
     ent1 = entries1.tolist()
@@ -91,9 +81,6 @@ def data_counts(data_array1, data_array2):
     return(co1, co2_sorted)
 
 
-# In[5]:
-
-
 def discrimination_rate(dataframe, identify_cols):
     #Currently only works if all the entries in the sensitive column are unique 
     df_iden = dataframe[identify_cols]
@@ -109,8 +96,6 @@ def discrimination_rate(dataframe, identify_cols):
     return(rate)
 
 
-# In[6]:
-
 
 def DR_all_columns(dataframe):
     rates = []
@@ -121,7 +106,6 @@ def DR_all_columns(dataframe):
     return(df)
 
 
-# In[ ]:
 
 
 
