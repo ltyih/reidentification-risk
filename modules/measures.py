@@ -107,7 +107,7 @@ def DR_all_columns(dataframe):
 
 
 
-def re_identification_risk(population_data, input_data):
+def jiang(population_data, input_data):
 
     population_data = population_data[input_data.columns]
 
