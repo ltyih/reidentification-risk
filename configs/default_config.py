@@ -45,7 +45,7 @@ fields = [
         ["binary", "quadruple"],
         [
             partial(cf.distribute_sex, probability_female=0.5),
-            partial(cf.sample_sex, weights = [0.4, 0.4, 0.09, 0.01])  # male, female, prefer not, non-binary
+            partial(cf.sample_sex, weights = [0.45, 0.45, 0.09, 0.01])  # male, female, prefer not, non-binary
         ],
         "quadruple"
     ),
