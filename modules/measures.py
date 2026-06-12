@@ -55,13 +55,17 @@ def cross_entropy(data_p, data_q):
      prob1a = [x / len(arr2) for x in counts1a]
      prob2a = [x / len(arr1) for x in counts2a]
      entropy2 = 0 
+     j = 0
      for i in range(len(prob1a)):
           if prob2a[i] == 0:
               # Ignore entries that clearly aren't in both datasets
               entropy2 = entropy2
+          elif prob1a[i] == 0:
+              entropy2 = entropy2
           else: 
               entropy2 = entropy2 - prob1a[i]*np.log2(prob2a[i])
-     return(entropy1, entropy2)
+              j = j + 1
+     return(entropy1, entropy2, j)
 
 
 def data_counts(data_array1, data_array2):
