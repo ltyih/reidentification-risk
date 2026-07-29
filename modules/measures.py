@@ -23,6 +23,8 @@ def entropy(dataframe, columns = []):
 
 
 def cross_entropy(data_p, data_q):
+     #data_q is the ID dataset
+     #data_p is the medical dataset
      #Drop all non-shared columns
      for col_name in data_p.columns:
          if col_name in data_q.columns:
@@ -39,33 +41,19 @@ def cross_entropy(data_p, data_q):
      arr2 = data_q.to_numpy()
      arr1 = arr1.astype('U21')
      arr2 = arr2.astype('U21')
-     # Compute entropy if p is the true distribution and q is the estimated distribution
      counts1, counts2 = data_counts(arr1,arr2) 
      prob1 = [x / len(arr1) for x in counts1]
      prob2 = [x / len(arr2) for x in counts2]
-     entropy1 =0
+     entropy =0
      for i in range(len(prob1)):
          if prob2[i] == 0:
              # Ignore entries that clearly aren't in both datasets
-             entropy1 = entropy1
+             entropy = entropy
+         elif prob1[i] == 0:
+              entropy= entropy
          else:
-             entropy1 = entropy1 - prob1[i]*np.log2(prob2[i])
-     # Compute entropy if q is the true distribution and p is the estimated distribution
-     counts1a, counts2a = data_counts(arr2,arr1) 
-     prob1a = [x / len(arr2) for x in counts1a]
-     prob2a = [x / len(arr1) for x in counts2a]
-     entropy2 = 0 
-     j = 0
-     for i in range(len(prob1a)):
-          if prob2a[i] == 0:
-              # Ignore entries that clearly aren't in both datasets
-              entropy2 = entropy2
-          elif prob1a[i] == 0:
-              entropy2 = entropy2
-          else: 
-              entropy2 = entropy2 - prob1a[i]*np.log2(prob2a[i])
-              j = j + 1
-     return(entropy1, entropy2, j)
+             entropy = entropy - prob1[i]*np.log2(prob2[i])
+     return(entropy)
 
 
 def data_counts(data_array1, data_array2):
